@@ -12,6 +12,10 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class ProjetoTriangulo {
 
@@ -65,14 +69,23 @@ public class ProjetoTriangulo {
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		JSlider sliC = new JSlider();
+		
+		sliC.setValue(0);
+		sliC.setMaximum(20);
 		sliC.setBounds(101, 108, 200, 26);
 		frame.getContentPane().add(sliC);
 		
 		JSlider sliB = new JSlider();
+		
+		sliB.setMaximum(20);
+		sliB.setValue(0);
 		sliB.setBounds(101, 71, 200, 26);
 		frame.getContentPane().add(sliB);
 		
 		JSlider sliA = new JSlider();
+		
+		sliA.setValue(0);
+		sliA.setMaximum(20);
 		sliA.setBounds(101, 33, 200, 26);
 		frame.getContentPane().add(sliA);
 		
@@ -95,6 +108,7 @@ public class ProjetoTriangulo {
 		frame.getContentPane().add(lblC);
 		
 		JButton btnVerificar = new JButton("Verificar");
+		
 		btnVerificar.setBounds(155, 161, 89, 23);
 		frame.getContentPane().add(btnVerificar);
 		
@@ -103,13 +117,13 @@ public class ProjetoTriangulo {
 		frame.getContentPane().add(panResultado);
 		panResultado.setLayout(null);
 		
-		JLabel lblNewLabel_6 = new JLabel("Forma ou n\u00E3o?");
-		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel_6.setForeground(Color.BLUE);
-		lblNewLabel_6.setBounds(10, 5, 337, 14);
-		lblNewLabel_6.setBackground(new Color(240, 240, 240));
-		panResultado.add(lblNewLabel_6);
+		JLabel lblStatus = new JLabel("Forma ou n\u00E3o?");
+		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		lblStatus.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblStatus.setForeground(Color.BLUE);
+		lblStatus.setBounds(10, 5, 337, 14);
+		lblStatus.setBackground(new Color(240, 240, 240));
+		panResultado.add(lblStatus);
 		
 		JLabel lblTriangulo = new JLabel("Tipo de triangulo");
 		lblTriangulo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -117,5 +131,41 @@ public class ProjetoTriangulo {
 		lblTriangulo.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblTriangulo.setBounds(0, 30, 347, 25);
 		panResultado.add(lblTriangulo);
+		btnVerificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int a=sliA.getValue();
+				int b=sliB.getValue();
+				int c=sliC.getValue();
+				if(a<b+c && b<a+c && c<a+b) {
+					lblStatus.setText("forma um triângulo");
+					if (a==b && b==c) {
+						lblTriangulo.setText("equilátero");
+					} else if(a!=b && b!=c && a!=c) {
+						lblTriangulo.setText("escaleno");
+					}else {
+						lblTriangulo.setText("isóseles");
+					}
+				} else {
+					lblStatus.setText("não forma um triângulo");
+					lblTriangulo.setText("---");
+				}
+				panResultado.setVisible(true);
+			}
+		});
+		sliA.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				lblA.setText(Integer.toString(sliA.getValue()));
+			}
+		});
+		sliB.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				lblB.setText(Integer.toString(sliB.getValue()));
+			}
+		});
+		sliC.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				lblC.setText(Integer.toString(sliC.getValue()));;
+			}
+		});
 	}
 }
